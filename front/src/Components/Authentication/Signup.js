@@ -25,6 +25,8 @@ const Signup = () => {
   return (
     <VStack spacing="5px" className="">
       <FormControl id="first-name" isRequired>
+        {" "}
+        {/* FormControl provides contextsuch as isInvalid,isDisabled,isRequired */}
         <FormLabel>Name</FormLabel>
         <Input
           placeholder="Enter Your Name"

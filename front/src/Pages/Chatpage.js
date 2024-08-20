@@ -7,14 +7,20 @@ const Chatpage = () => {
   const fetchChats = async () => {
     const { data } = await axios.get("/api/chat");
 
-    console.log(data);
+    setchats(data);
   };
 
   useEffect(() => {
-    fetchChats();
+    fetchChats();//whenever this componet is render thisfetchchat function will be called
   }, []);
 
-  return <div> Chat Page </div>;
+  return(
+   <div> 
+       {chats.map((chat) => (
+      <div key={chat._id} >{chat.chatName}</div>
+   ))} 
+   </div>
+   );
 };
 
 export default Chatpage;
