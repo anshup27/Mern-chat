@@ -60,4 +60,20 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { allUsers, registerUser, authUser };
+const allUsers = asyncHandler(async (req, res) => {
+  const keyword = req.query.search
+    ? // $regex Provides regular expression capabilities for pattern matching strings in queries.
+
+      {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+  // console.log(req.query.search);
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  res.send(users);
+});
+
+module.exports = { registerUser, authUser, allUsers };
