@@ -101,16 +101,21 @@ const Signup = () => {
           "Content-type": "application/json",
         },
       };
-      const { data } = await axios.post(
-        `${Backend_url}/api/user/register`,
-        {
-          name,
-          email,
-          password,
-          pic,
-        },
-        config
-      );
+      const { data } = await axios
+        .post(
+          `${Backend_url}/api/user/register`,
+          {
+            name,
+            email,
+            password,
+            pic,
+          },
+          config
+        )
+        .then((dat) => {
+          // console.log(dat);
+          localStorage.setItem("userInfo", dat);
+        });
       console.log(data);
       toast({
         title: "Registration Successful",
@@ -119,7 +124,7 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(data));
+
       setPicLoading(false);
       history.push("/chats");
     } catch (error) {
@@ -134,6 +139,7 @@ const Signup = () => {
       setPicLoading(false);
     }
   };
+
   return (
     <VStack spacing="5px" className="">
       <FormControl id="first-name" isRequired>

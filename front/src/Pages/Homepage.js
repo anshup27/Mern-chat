@@ -11,8 +11,18 @@ import {
 } from "@chakra-ui/react";
 import Login from "../Components/Authentication/Login";
 import Signup from "../Components/Authentication/Signup";
+import { useEffect } from "react";
+import { useHistory } from "react-router";
 
 const Homepage = () => {
+  const history = useHistory();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (user) history.push("/chats");
+  }, [history]);
+
   return (
     <Container maxW="x1" centerContent className="App">
       <Box width={{ base: "95%", md: "80%", lg: "50%" }} margin="auto" mt={5}>

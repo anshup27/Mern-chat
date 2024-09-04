@@ -1,40 +1,27 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Backend_url } from "../config";
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import { Backend_url } from "../config";
+
+import { Box } from "@chakra-ui/layout";
+import { useState } from "react";
+import { ChatState } from "../Context/ChatProvider";
+import SideDrawer from "../Components/miscellaneous/SideDrawer";
+import ChatBox from "../Components/ChatBox";
+import MyChats from "../Components/MyChats";
 
 const Chatpage = () => {
-  const [chats, setChats] = useState([]);
-
-  const fetchChats = async () => {
-    try {
-      // Retrieve userInfo from localStorage and parse it
-      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-      // Extract the token from userInfo
-      const token = userInfo?.token;
-
-      // If token exists, make the API request with Authorization header
-      const { data } = await axios.get(`${Backend_url}/api/chat`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setChats(data);
-    } catch (error) {
-      console.error("Error fetching chats:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchChats();
-  }, []);
-
+  const { user } = ChatState();
+  // console.log(user.name);
+  const [fetchAgain, setFetchAgain] = useState(false);
   return (
-    <div>
-      {chats?.map((chat) => (
-        <div key={chat._id}>{chat.chatName}</div>
-      ))}
+    <div style={{ width: "100%" }}>
+      {/* {user && <SideDrawer />} */}
+      <Box d="flex" justifyContent="space-between" w="100%" h="91.5vh" p="10px">
+        {user && <MyChats fetchAgain={fetchAgain} />}
+        {/* {user && (
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )} */}
+      </Box>
     </div>
   );
 };
